@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>P3BET 页面验证测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            color: #1a237e;
+        }
+        .success {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        .error {
+            color: #f44336;
+            font-weight: bold;
+        }
+        .info {
+            color: #2196F3;
+        }
+        ul {
+            line-height: 2;
+        }
+        .test-result {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            background: #f9f9f9;
+        }
+        .preview-link {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #FF6B00;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        .preview-link:hover {
+            background: #FF8E53;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 P3BET 落地页验证测试</h1>
+    
+    <div class="test-section">
+        <h2>📋 文件检查</h2>
+        <div id="file-check">检查中...</div>
+    </div>
+    
+    <div class="test-section">
+        <h2>⚙️ 配置验证</h2>
+        <div id="config-check">检查中...</div>
+    </div>
+    
+    <div class="test-section">
+        <h2>🎯 功能测试</h2>
+        <div id="function-check">检查中...</div>
+    </div>
+    
+    <div class="test-section">
+        <h2>🌐 预览链接</h2>
+        <p>服务器已启动，点击下方链接预览页面：</p>
+        <a href="http://localhost:8080/index-optimized.html" target="_blank" class="preview-link">
+            打开优化版页面 (推荐)
+        </a><br>
+        <a href="http://localhost:8080/index-new.html" target="_blank" class="preview-link">
+            打开单文件版页面
+        </a><br>
+        <a href="http://localhost:8080/index.html" target="_blank" class="preview-link">
+            打开原始页面
+        </a>
+    </div>
+    
+    <div class="test-section">
+        <h2>📱 响应式测试</h2>
+        <p>请在不同设备上测试：</p>
+        <ul>
+            <li>手机：竖屏和横屏</li>
+            <li>平板：7-10寸</li>
+            <li>电脑：1920x1080、1366x768</li>
+        </ul>
+    </div>
+    
+    <script src="config.js"></script>
+    <script>
+        // 文件检查
+        function checkFiles() {
+            const fileCheck = document.getElementById('file-check');
+            let html = '<ul>';
+            
+            const requiredFiles = [
+                'index-optimized.html',
+                'config.js',
+                'app.js',
+                'styles.css',
+                'README.md'
+            ];
+            
+            html += '<li class="info">必需文件应该包括：' + requiredFiles.join(', ') + '</li>';
+            html += '</ul>';
+            
+            fileCheck.innerHTML = html;
+        }
+        
+        // 配置验证
+        function checkConfig() {
+            const configCheck = document.getElementById('config-check');
+            let html = '<div class="test-result">';
+            
+            try {
+                // 检查轮播图
+                if (typeof CONFIG_BANNERS !== 'undefined' && CONFIG_BANNERS.length > 0) {
+                    html += `<p class="success">✓ 轮播图配置正常 (${CONFIG_BANNERS.length} 张)</p>`;
+                } else {
+                    html += '<p class="error">✗ 轮播图配置错误或为空</p>';
+                }
+                
+                // 检查游戏
+                if (typeof CONFIG_GAME_CATEGORIES !== 'undefined' && CONFIG_GAME_CATEGORIES.length > 0) {
+                    let totalGames = 0;
+                    CONFIG_GAME_CATEGORIES.forEach(cat => {
+                        totalGames += cat.games.length;
+                    });
+                    html += `<p class="success">✓ 游戏配置正常 (${CONFIG_GAME_CATEGORIES.length} 个分类, 共 ${totalGames} 个游戏)</p>`;
+                } else {
+                    html += '<p class="error">✗ 游戏配置错误或为空</p>';
+                }
+                
+                // 检查视频
+                if (typeof CONFIG_VIDEOS !== 'undefined' && CONFIG_VIDEOS.length > 0) {
+                    html += `<p class="success">✓ 视频配置正常 (${CONFIG_VIDEOS.length} 个视频)</p>`;
+                } else {
+                    html += '<p class="error">✗ 视频配置错误或为空</p>';
+                }
+                
+                // 检查按钮
+                if (typeof CONFIG_BUTTONS !== 'undefined' && CONFIG_BUTTONS.register && CONFIG_BUTTONS.login) {
+                    html += '<p class="success">✓ 按钮配置正常</p>';
+                } else {
+                    html += '<p class="error">✗ 按钮配置错误</p>';
+                }
+                
+                // 检查联系方式
+                if (typeof CONFIG_CONTACT !== 'undefined') {
+                    html += '<p class="success">✓ 联系方式配置正常</p>';
+                } else {
+                    html += '<p class="error">✗ 联系方式配置错误</p>';
+                }
+                
+            } catch (e) {
+                html += `<p class="error">配置检查出错: ${e.message}</p>`;
+            }
+            
+            html += '</div>';
+            configCheck.innerHTML = html;
+        }
+        
+        // 功能测试建议
+        function checkFunctions() {
+            const functionCheck = document.getElementById('function-check');
+            let html = `
+                <ul>
+                    <li>✓ 轮播图自动播放（每3秒切换）</li>
+                    <li>✓ 鼠标悬停轮播图时暂停</li>
+                    <li>✓ 点击导航点切换轮播图</li>
+                    <li>✓ 手机上支持左右滑动切换</li>
+                    <li>✓ 游戏卡片悬停效果</li>
+                    <li>✓ 点击视频缩略图全屏播放</li>
+                    <li>✓ 视频播放器支持 ESC 关闭</li>
+                    <li>✓ 点击背景关闭视频播放器</li>
+                    <li>✓ PC端显示6列游戏，手机端显示4列</li>
+                    <li>✓ 所有按钮有点击反馈动画</li>
+                </ul>
+                <p class="info">请在浏览器中打开页面，逐一测试以上功能。</p>
+            `;
+            functionCheck.innerHTML = html;
+        }
+        
+        // 执行检查
+        window.addEventListener('DOMContentLoaded', function() {
+            checkFiles();
+            checkConfig();
+            checkFunctions();
+        });
+    </script>
+</body>
+</html>

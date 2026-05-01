@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>P3BET - 自动轮播图</title>
+    <style>
+        /* 基础样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        
+        /* 轮播图容器 */
+        .carousel-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        /* 轮播图轨道 */
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+        
+        /* 单张轮播图 */
+        .carousel-slide {
+            min-width: 100%;
+            height: 300px;
+        }
+        
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* 导航按钮 */
+        .carousel-nav {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .nav-dot.active {
+            background: #FF6B00;
+            transform: scale(1.2);
+        }
+        
+        /* 左右箭头按钮（可选） */
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 10;
+            display: none; /* 默认隐藏，鼠标悬停时显示 */
+        }
+        
+        .carousel-container:hover .carousel-btn {
+            display: block;
+        }
+        
+        .prev-btn {
+            left: 15px;
+        }
+        
+        .next-btn {
+            right: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="carousel-container">
+        <!-- 轮播图轨道 -->
+        <div class="carousel-track">
+            <div class="carousel-slide">
+                <img src="assets/images/banners/banner1.png" alt="Banner 1">
+            </div>
+            <div class="carousel-slide">
+                <img src="assets/images/banners/banner2.png" alt="Banner 2">
+            </div>
+            <div class="carousel-slide">
+                <img src="assets/images/banners/banner3.png" alt="Banner 3">
+            </div>
+            <div class="carousel-slide">
+                <img src="assets/images/banners/banner4.png" alt="Banner 4">
+            </div>
+            <div class="carousel-slide">
+                <img src="assets/images/banners/banner5.png" alt="Banner 5">
+            </div>
+            <div class="carousel-slide">
+                <img src="assets/images/banners/banner6.png" alt="Banner 6">
+            </div>
+        </div>
+        
+        <!-- 左右箭头按钮（可选） -->
+        <button class="carousel-btn prev-btn">❮</button>
+        <button class="carousel-btn next-btn">❯</button>
+        
+        <!-- 导航点 -->
+        <div class="carousel-nav">
+            <div class="nav-dot active" data-index="0"></div>
+            <div class="nav-dot" data-index="1"></div>
+            <div class="nav-dot" data-index="2"></div>
+            <div class="nav-dot" data-index="3"></div>
+            <div class="nav-dot" data-index="4"></div>
+            <div class="nav-dot" data-index="5"></div>
+        </div>
+    </div>
+
+    <script>
+        class Carousel {
+            constructor(container) {
+                this.container = container;
+                this.track = container.querySelector('.carousel-track');
+                this.slides = Array.from(container.querySelectorAll('.carousel-slide'));
+                this.dots = Array.from(container.querySelectorAll('.nav-dot'));
+                this.prevBtn = container.querySelector('.prev-btn');
+                this.nextBtn = container.querySelector('.next-btn');
+                
+                this.currentIndex = 0;
+                this.totalSlides = this.slides.length;
+                this.autoPlayInterval = null;
+                this.intervalTime = 2000; // 3秒切换一次
+                
+                this.init();
+            }
+            
+            init() {
+                // 设置初始位置
+                this.updatePosition();
+                
+                // 添加导航点点击事件
+                this.dots.forEach(dot => {
+                    dot.addEventListener('click', (e) => {
+                        const index = parseInt(e.target.dataset.index);
+                        this.goToSlide(index);
+                        this.resetAutoPlay();
+                    });
+                });
+                
+                // 添加上一张/下一张按钮事件
+                if (this.prevBtn) {
+                    this.prevBtn.addEventListener('click', () => {
+                        this.prevSlide();
+                        this.resetAutoPlay();
+                    });
+                }
+                
+                if (this.nextBtn) {
+                    this.nextBtn.addEventListener('click', () => {
+                        this.nextSlide();
+                        this.resetAutoPlay();
+                    });
+                }
+                
+                // 开始自动轮播
+                this.startAutoPlay();
+                
+                // 鼠标悬停时暂停轮播
+                this.container.addEventListener('mouseenter', () => this.stopAutoPlay());
+                this.container.addEventListener('mouseleave', () => this.startAutoPlay());
+            }
+            
+            updatePosition() {
+                // 移动轮播轨道
+                this.track.style.transform = `translateX(-${this.currentIndex * 100}%)`;
+                
+                // 更新导航点状态
+                this.dots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === this.currentIndex);
+                });
+            }
+            
+            goToSlide(index) {
+                this.currentIndex = index;
+                this.updatePosition();
+            }
+            
+            nextSlide() {
+                this.currentIndex = (this.currentIndex + 1) % this.totalSlides;
+                this.updatePosition();
+            }
+            
+            prevSlide() {
+                this.currentIndex = (this.currentIndex - 1 + this.totalSlides) % this.totalSlides;
+                this.updatePosition();
+            }
+            
+            startAutoPlay() {
+                this.stopAutoPlay(); // 清除现有定时器
+                this.autoPlayInterval = setInterval(() => {
+                    this.nextSlide();
+                }, this.intervalTime);
+            }
+            
+            stopAutoPlay() {
+                if (this.autoPlayInterval) {
+                    clearInterval(this.autoPlayInterval);
+                    this.autoPlayInterval = null;
+                }
+            }
+            
+            resetAutoPlay() {
+                this.stopAutoPlay();
+                this.startAutoPlay();
+            }
+        }
+        
+        // 初始化轮播图
+        document.addEventListener('DOMContentLoaded', () => {
+            const carouselContainer = document.querySelector('.carousel-container');
+            new Carousel(carouselContainer);
+        });
+    </script>
+</body>
+</html>

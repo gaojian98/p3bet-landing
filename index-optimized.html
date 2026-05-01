@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>P3BET - Trải nghiệm cá cược đỉnh cao</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- 头部 -->
+        <div class="header">
+            <div class="logo">
+                <img src="assets/images/games/c68649145ca04a8691e838168c2a593b.png" 
+                     alt="P3BET Logo" 
+                     class="logo-img">
+            </div>
+            <div class="subtitle">Trải nghiệm cá cược đỉnh cao</div>
+        </div>
+
+        <!-- 轮播图 -->
+        <div class="carousel-container">
+            <div class="carousel-track" id="carouselTrack"></div>
+            <div class="carousel-nav" id="carouselNav"></div>
+        </div>
+
+        <!-- 按钮区域 -->
+        <div class="button-section">
+            <div class="button-row" id="buttonRow"></div>
+        </div>
+
+        <!-- 游戏展示区域 -->
+        <div class="games-section" id="gamesSection"></div>
+
+        <!-- 视频区域 -->
+        <div class="videos-section">
+            <div class="section-title">🎬 KHÁCH HÀNG CHIA SẺ</div>
+            <div class="videos-container" id="videosContainer"></div>
+        </div>
+        
+        <!-- 全屏播放器 -->
+        <div class="video-player-fullscreen" id="fullscreen-player">
+            <div class="close-button" id="close-player">✕</div>
+            <div class="fullscreen-container">
+                <video class="fullscreen-video" id="fullscreen-video" controls>
+                    <source id="video-source" src="" type="video/mp4">
+                    Trình duyệt của bạn không hỗ trợ thẻ video.
+                </video>
+                <div class="fullscreen-title" id="fullscreen-title"></div>
+            </div>
+        </div>
+
+        <!-- 底部 -->
+        <div class="footer" id="footer"></div>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

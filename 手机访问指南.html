@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>手机访问指南 - P3BET</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #1a237e;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 32px;
+        }
+        .info-box {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border-left: 4px solid #FF6B00;
+        }
+        .ip-address {
+            font-size: 24px;
+            font-weight: bold;
+            color: #FF6B00;
+            text-align: center;
+            padding: 20px;
+            background: #fff3e0;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+        }
+        .url-list {
+            list-style: none;
+            padding: 0;
+        }
+        .url-list li {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 2px solid #eee;
+            transition: all 0.3s;
+        }
+        .url-list li:hover {
+            border-color: #FF6B00;
+            transform: translateX(5px);
+        }
+        .url-list a {
+            color: #1a237e;
+            text-decoration: none;
+            font-weight: 500;
+            display: block;
+        }
+        .url-list a:hover {
+            color: #FF6B00;
+        }
+        .label {
+            display: inline-block;
+            background: #FF6B00;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            margin-right: 10px;
+        }
+        .qrcode-section {
+            text-align: center;
+            margin: 30px 0;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+        .qrcode-box {
+            display: inline-block;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin: 20px 0;
+        }
+        .steps {
+            counter-reset: step-counter;
+            list-style: none;
+            padding: 0;
+        }
+        .steps li {
+            counter-increment: step-counter;
+            padding: 15px 15px 15px 50px;
+            margin: 10px 0;
+            background: #f8f9fa;
+            border-radius: 8px;
+            position: relative;
+        }
+        .steps li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 30px;
+            background: #FF6B00;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        .note {
+            background: #fff3e0;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #ff9800;
+        }
+        .note strong {
+            color: #ff6f00;
+        }
+        .button {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #FF6B00;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: all 0.3s;
+            margin: 5px;
+        }
+        .button:hover {
+            background: #FF8E53;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 107, 0, 0.3);
+        }
+        .test-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .test-item {
+            background: #e3f2fd;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        @media (max-width: 768px) {
+            body {
+                margin: 0;
+                padding: 10px;
+            }
+            .container {
+                padding: 20px;
+            }
+            h1 {
+                font-size: 24px;
+            }
+            .ip-address {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📱 手机访问指南</h1>
+        
+        <div class="info-box">
+            <h2>✅ 服务器已启动</h2>
+            <p>电脑IP地址：</p>
+            <div class="ip-address">192.168.88.253:8080</div>
+        </div>
+        
+        <h2>🔗 访问地址</h2>
+        <ul class="url-list">
+            <li>
+                <span class="label">推荐</span>
+                <a href="http://192.168.88.253:8080/index-optimized.html" target="_blank">
+                    优化版页面<br>
+                    <small style="color: #666;">http://192.168.88.253:8080/index-optimized.html</small>
+                </a>
+            </li>
+            <li>
+                <span class="label">备用</span>
+                <a href="http://192.168.88.253:8080/index-new.html" target="_blank">
+                    单文件版页面<br>
+                    <small style="color: #666;">http://192.168.88.253:8080/index-new.html</small>
+                </a>
+            </li>
+            <li>
+                <span class="label">测试</span>
+                <a href="http://192.168.88.253:8080/test-validation.html" target="_blank">
+                    配置验证页面<br>
+                    <small style="color: #666;">http://192.168.88.253:8080/test-validation.html</small>
+                </a>
+            </li>
+        </ul>
+        
+        <div class="qrcode-section">
+            <h2>📷 扫描二维码访问</h2>
+            <p>使用手机浏览器扫描下方二维码：</p>
+            <div class="qrcode-box">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=http://192.168.88.253:8080/index-optimized.html" 
+                     alt="优化版页面二维码" 
+                     style="width: 200px; height: 200px;">
+                <p style="margin-top: 10px; font-weight: bold;">优化版页面</p>
+            </div>
+            <div style="margin-top: 20px;">
+                <a href="https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=http://192.168.88.253:8080/index-optimized.html" 
+                   target="_blank" 
+                   class="button">
+                    下载大尺寸二维码
+                </a>
+            </div>
+        </div>
+        
+        <h2>📝 使用步骤</h2>
+        <ol class="steps">
+            <li>确保手机和电脑连接<strong>同一个WiFi网络</strong></li>
+            <li>打开手机的<strong>浏览器</strong>（Chrome、Safari等）</li>
+            <li>输入上面的地址，或扫描二维码</li>
+            <li>开始浏览和测试页面！</li>
+        </ol>
+        
+        <h2>✅ 手机测试项目</h2>
+        <div class="test-items">
+            <div class="test-item">✓ 页面正常显示</div>
+            <div class="test-item">✓ 轮播图自动播放</div>
+            <div class="test-item">✓ 左右滑动切换</div>
+            <div class="test-item">✓ 游戏4列布局</div>
+            <div class="test-item">✓ 按钮竖向排列</div>
+            <div class="test-item">✓ 视频正常播放</div>
+            <div class="test-item">✓ HOT标签动画</div>
+            <div class="test-item">✓ 点击反馈效果</div>
+        </div>
+        
+        <div class="note">
+            <strong>⚠️ 无法访问？请检查：</strong>
+            <ul style="margin: 10px 0 0 20px;">
+                <li>手机和电脑是否在同一WiFi？</li>
+                <li>电脑防火墙是否阻止了8080端口？</li>
+                <li>服务器是否还在运行？</li>
+                <li>IP地址是否输入正确？</li>
+            </ul>
+        </div>
+        
+        <h2>💻 在电脑上测试</h2>
+        <div style="text-align: center; margin: 20px 0;">
+            <a href="http://localhost:8080/index-optimized.html" target="_blank" class="button">
+                打开优化版页面
+            </a>
+            <a href="http://localhost:8080/test-validation.html" target="_blank" class="button">
+                打开测试页面
+            </a>
+        </div>
+        
+        <div class="info-box" style="margin-top: 30px;">
+            <h3>📚 更多信息</h3>
+            <p>
+                • 查看 <strong>README.md</strong> 了解完整功能<br>
+                • 查看 <strong>快速使用指南.md</strong> 学习如何修改<br>
+                • 查看 <strong>项目优化完成报告.md</strong> 了解所有改进
+            </p>
+        </div>
+    </div>
+</body>
+</html>

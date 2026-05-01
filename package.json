@@ -1,0 +1,15 @@
+{
+  "name": "p3bet-landing",
+  "version": "1.0.0",
+  "description": "P3BET - 网络游戏落地页",
+  "main": "index.html",
+  "scripts": {
+    "start": "serve -s . -l tcp://0.0.0.0:${PORT:-3000}"
+  },
+  "keywords": ["p3bet", "landing-page", "casino", "gaming"],
+  "author": "gaojian98",
+  "license": "MIT",
+  "dependencies": {
+    "serve": "^14.2.3"
+  }
+}

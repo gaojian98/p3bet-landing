@@ -1,6 +1,6 @@
 {
   "name": "p3bet-landing",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "P3BET - 网络游戏落地页",
   "main": "index.html",
   "scripts": {

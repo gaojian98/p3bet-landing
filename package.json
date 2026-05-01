@@ -4,12 +4,12 @@
   "description": "P3BET - 网络游戏落地页",
   "main": "index.html",
   "scripts": {
-    "start": "serve . -l ${PORT:-3000} --single"
+    "start": "npx http-server . -p ${PORT:-3000}"
   },
   "keywords": ["p3bet", "landing-page", "casino", "gaming"],
   "author": "gaojian98",
   "license": "MIT",
   "dependencies": {
-    "serve": "^14.2.3"
+    "http-server": "^14.1.1"
   }
 }

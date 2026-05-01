@@ -4,7 +4,7 @@
   "description": "P3BET - 网络游戏落地页",
   "main": "index.html",
   "scripts": {
-    "start": "serve -s . -l tcp://0.0.0.0:${PORT:-3000}"
+    "start": "serve . -l ${PORT:-3000} --single"
   },
   "keywords": ["p3bet", "landing-page", "casino", "gaming"],
   "author": "gaojian98",

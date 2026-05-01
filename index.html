@@ -4,7 +4,677 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>P3BET - Trải nghiệm cá cược đỉnh cao</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* ==================== 全局样式 ==================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-color: #FF6B00;
+            --primary-gradient: linear-gradient(135deg, #FF6B00 0%, #FF8E53 100%);
+            --secondary-color: #1a237e;
+            --secondary-gradient: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+            --text-color: #333;
+            --text-light: #666;
+            --bg-light: #f5f5f5;
+            --border-color: #eee;
+            --shadow: 0 2px 8px rgba(0,0,0,0.1);
+            --shadow-hover: 0 4px 16px rgba(0,0,0,0.15);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: var(--bg-light);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* ==================== 容器布局 ==================== */
+        .container {
+            max-width: 420px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            box-shadow: 0 0 40px rgba(0,0,0,0.1);
+        }
+        
+        /* PC端适配 */
+        @media (min-width: 768px) {
+            .container {
+                max-width: 1200px;
+            }
+        }
+        
+        /* ==================== 头部样式 ==================== */
+        .header {
+            background: var(--secondary-gradient);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .logo-img {
+            max-width: 180px;
+            height: auto;
+            transition: var(--transition);
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+        
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        .logo-img:hover {
+            transform: scale(1.05);
+        }
+        
+        .subtitle {
+            font-size: 13px;
+            opacity: 0.9;
+            margin-top: 8px;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+        
+        @media (min-width: 768px) {
+            .logo-img {
+                max-width: 220px;
+            }
+            .subtitle {
+                font-size: 15px;
+            }
+        }
+        
+        /* ==================== 轮播图样式 ==================== */
+        .carousel-container {
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            background: #000;
+        }
+        
+        .carousel-track {
+            display: flex;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .carousel-slide {
+            min-width: 100%;
+            position: relative;
+        }
+        
+        .carousel-slide img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+        
+        .carousel-nav {
+            position: absolute;
+            bottom: 15px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            z-index: 10;
+        }
+        
+        .nav-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+        
+        .nav-dot:hover {
+            background: rgba(255,255,255,0.8);
+            transform: scale(1.2);
+        }
+        
+        .nav-dot.active {
+            background: var(--primary-color);
+            width: 30px;
+            border-radius: 5px;
+            border-color: white;
+        }
+        
+        @media (min-width: 768px) {
+            .carousel-slide img {
+                max-height: 400px;
+            }
+        }
+        
+        /* ==================== 按钮区域 ==================== */
+        .button-section {
+            padding: 25px 20px;
+            background: linear-gradient(180deg, white 0%, #f9f9f9 100%);
+        }
+        
+        .button-row {
+            display: flex;
+            gap: 15px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .button-row a {
+            flex: 1;
+        }
+        
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 16px 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            outline: none;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .btn:active::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .btn-login {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);
+        }
+        
+        .btn-login:hover {
+            box-shadow: 0 6px 20px rgba(255, 107, 0, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .btn-register {
+            background: white;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+        
+        .btn-register:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .btn-icon {
+            font-size: 20px;
+        }
+        
+        @media (min-width: 768px) {
+            .btn {
+                padding: 18px 30px;
+                font-size: 18px;
+            }
+        }
+        
+        /* ==================== 分类标题 ==================== */
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 20px 20px 15px;
+            color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: var(--primary-gradient);
+            border-radius: 2px;
+        }
+        
+        @media (min-width: 768px) {
+            .section-title {
+                font-size: 22px;
+                margin: 30px 30px 20px;
+            }
+        }
+        
+        /* ==================== 游戏网格 ==================== */
+        .games-section {
+            padding: 0 15px 20px;
+        }
+        
+        .game-category {
+            margin-bottom: 30px;
+        }
+        
+        .category-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: var(--text-color);
+            padding-left: 5px;
+            border-left: 3px solid var(--primary-color);
+        }
+        
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        
+        @media (min-width: 768px) {
+            .games-section {
+                padding: 0 30px 30px;
+            }
+            
+            .game-grid {
+                grid-template-columns: repeat(6, 1fr);
+                gap: 15px;
+            }
+            
+            .category-title {
+                font-size: 18px;
+                margin-bottom: 15px;
+            }
+            
+            .game-name {
+                font-size: 11px;
+            }
+        }
+        
+        .game-card {
+            aspect-ratio: 1/1.35;
+            background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+            border: 2px solid var(--border-color);
+            transition: var(--transition);
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.06);
+        }
+        
+        .game-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 12px 24px rgba(255, 107, 0, 0.2), 0 8px 16px rgba(0,0,0,0.15);
+        }
+        
+        .game-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(145deg, 
+                rgba(138, 43, 226, 0.05) 0%, 
+                rgba(75, 0, 130, 0.05) 50%, 
+                rgba(255, 107, 0, 0.05) 100%);
+            opacity: 0;
+            transition: var(--transition);
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .game-card:hover::before {
+            opacity: 1;
+        }
+        
+        .game-image {
+            width: 100%;
+            height: 75%;
+            object-fit: contain;
+            padding: 8px;
+            transition: var(--transition);
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+            position: relative;
+        }
+        
+        .game-card:hover .game-image {
+            transform: scale(1.08) translateY(-3px);
+            filter: drop-shadow(0 8px 16px rgba(138, 43, 226, 0.3)) 
+                    drop-shadow(0 4px 8px rgba(75, 0, 130, 0.2))
+                    brightness(1.1)
+                    contrast(1.05);
+        }
+        
+        .game-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.3) 50%,
+                transparent 100%);
+            transition: left 0.5s ease;
+        }
+        
+        .game-card:hover .game-image::after {
+            left: 150%;
+        }
+        
+        .game-name {
+            height: 25%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--text-color);
+            background: linear-gradient(180deg, transparent 0%, rgba(248, 249, 250, 0.9) 30%);
+            padding: 8px 5px;
+            text-align: center;
+            line-height: 1.2;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .game-card:hover .game-name {
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+        
+        .hot-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: linear-gradient(135deg, #ff6b00 0%, #ff8e53 50%, #ffa726 100%);
+            color: white;
+            font-size: 10px;
+            padding: 5px 10px;
+            border-radius: 14px;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(255, 107, 0, 0.4),
+                        0 1px 3px rgba(255, 107, 0, 0.3),
+                        inset 0 -2px 4px rgba(0, 0, 0, 0.1),
+                        inset 0 1px 2px rgba(255, 255, 255, 0.3);
+            animation: hotBadgeGlow 2s ease-in-out infinite;
+            z-index: 3;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        @keyframes hotBadgeGlow {
+            0%, 100% { 
+                transform: scale(1);
+                box-shadow: 0 3px 10px rgba(255, 107, 0, 0.4),
+                            0 1px 3px rgba(255, 107, 0, 0.3),
+                            inset 0 -2px 4px rgba(0, 0, 0, 0.1),
+                            inset 0 1px 2px rgba(255, 255, 255, 0.3);
+            }
+            50% { 
+                transform: scale(1.1);
+                box-shadow: 0 5px 15px rgba(255, 107, 0, 0.6),
+                            0 2px 5px rgba(255, 107, 0, 0.5),
+                            inset 0 -2px 4px rgba(0, 0, 0, 0.1),
+                            inset 0 1px 2px rgba(255, 255, 255, 0.4);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        /* ==================== 视频区域 ==================== */
+        .videos-section {
+            padding: 20px 15px;
+            background: #f9f9f9;
+        }
+        
+        /* 修改视频容器：两个视频框并排居中 */
+        .videos-container {
+            display: flex;
+            justify-content: center;  /* 水平居中 */
+            gap: 20px;                /* 两个视频之间的间距 */
+            flex-wrap: wrap;          /* 如果屏幕太小，允许换行 */
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* 视频卡片：控制尺寸，变小一点 */
+        .video-thumbnail {
+            width: 160px;             /* 变小一点 */
+            aspect-ratio: 9 / 16;     /* 竖屏比例，保证人物完整 */
+            position: relative;
+            cursor: pointer;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #000;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        /* 视频封面：保证人物完整显示 */
+        .thumbnail-cover {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;      /* 关键：contain保证人物完整显示 */
+            transition: var(--transition);
+        }
+        
+        /* 播放按钮：居中显示 */
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;              /* 按钮变小一点 */
+            height: 40px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(255, 107, 0, 0.4);
+            pointer-events: none;     /* 防止按钮挡住点击播放 */
+        }
+        
+        /* 响应式：在小屏幕手机上 */
+        @media (max-width: 480px) {
+            .video-thumbnail {
+                width: 130px;         /* 在小屏幕上更小 */
+            }
+        }
+        
+        .play-button:hover {
+            background: rgba(255, 107, 0, 0.8);
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+        
+        /* 小尺寸标题 */
+        .thumbnail-title {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+            padding: 6px;
+            font-size: 11px;
+            text-align: center;
+        }
+        
+        /* 全屏播放器 */
+        .video-player-fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        /* 全屏播放器内部容器 */
+        .fullscreen-container {
+            width: 90%;
+            max-width: 1000px;
+            height: 70%;
+            background: #000;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        /* 全屏视频 */
+        .fullscreen-video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        /* 全屏播放器标题 */
+        .fullscreen-title {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: white;
+            font-size: 16px;
+            padding: 10px;
+            background: rgba(0,0,0,0.5);
+        }
+        
+        /* 关闭按钮 */
+        .close-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 1001;
+            transition: all 0.3s ease;
+        }
+        
+        .close-button:hover {
+            background: rgba(255, 107, 0, 0.8);
+            transform: scale(1.1);
+        }
+        
+        /* 动画效果 */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        /* ==================== 底部 ==================== */
+        .footer {
+            display: flex;              /* 添加：启用 Flexbox 布局 */
+            flex-direction: column;     /* 添加：垂直排列子元素 */
+            align-items: center;        /* 添加：水平居中对齐所有子元素 */
+            padding: 30px 20px;
+            text-align: center;         /* 保留：文本内容水平居中 */
+            background: linear-gradient(180deg, #f8f9fa 0%, #e9ecef 100%);
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .contact-info {
+            margin: 20px 0;
+            line-height: 2;
+        }
+        
+        .contact-link {
+            color: var(--secondary-color);
+            text-decoration: none;
+            margin: 0 10px;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+        
+        .contact-link:hover {
+            color: var(--primary-color);
+            text-decoration: underline;
+        }
+        
+        .copyright {
+            margin-top: 20px;
+            color: var(--text-light);
+            font-size: 13px;
+            line-height: 1.8;
+        }
+        
+        @media (min-width: 768px) {
+            .footer {
+                padding: 40px 30px;
+            }
+            
+            .contact-info {
+                font-size: 15px;
+            }
+        }
+        
+        /* ==================== 加载动画 ==================== */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,107,0,0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -20,22 +690,46 @@
 
         <!-- 轮播图 -->
         <div class="carousel-container">
-            <div class="carousel-track" id="carouselTrack"></div>
-            <div class="carousel-nav" id="carouselNav"></div>
+            <div class="carousel-track" id="carouselTrack">
+                <!-- 轮播图将由JavaScript动态生成 -->
+            </div>
+            <div class="carousel-nav" id="carouselNav">
+                <!-- 导航点将由JavaScript动态生成 -->
+            </div>
         </div>
 
         <!-- 按钮区域 -->
         <div class="button-section">
-            <div class="button-row" id="buttonRow"></div>
+            <div class="button-row">
+                <a href="https://p3bet82.com/home?key=9eeln57" target="_blank" style="text-decoration: none;">
+                    <button class="btn btn-register" type="button">
+                        <span class="btn-icon">⚙️</span>
+                        <span class="btn-text">ĐĂNG KÝ</span>
+                    </button>
+                </a>
+                
+                <a href="https://p3.com/home" target="_blank" style="text-decoration: none;">
+                    <button class="btn btn-login" type="button">
+                        <span class="btn-icon">🔓</span>
+                        <span class="btn-text">ĐĂNG NHẬP</span>
+                    </button>
+                </a>
+            </div>
         </div>
 
         <!-- 游戏展示区域 -->
-        <div class="games-section" id="gamesSection"></div>
+        <div class="games-section" id="gamesSection">
+            <!-- 游戏分类将由JavaScript动态生成 -->
+        </div>
 
         <!-- 视频区域 -->
         <div class="videos-section">
-            <div class="section-title">🎬 KHÁCH HÀNG CHIA SẺ</div>
-            <div class="videos-container" id="videosContainer"></div>
+            <div class="section-title">
+                🎬 KHÁCH HÀNG CHIA SẺ
+            </div>
+            <div class="videos-container" id="videosContainer">
+                <!-- 视频缩略图将由JavaScript动态生成 -->
+            </div>
         </div>
         
         <!-- 全屏播放器 -->
@@ -49,12 +743,308 @@
                 <div class="fullscreen-title" id="fullscreen-title"></div>
             </div>
         </div>
-
-        <!-- 底部 -->
-        <div class="footer" id="footer"></div>
+<!-- 底部 -->
+<div class="footer">
+    <div class="contact-info">
+        🌐 <a href="https://p3.com/home" class="contact-link" target="_blank">https://p3.com/home</a><br>
+        📱 <a href="https://zalo.me/84566468931" class="contact-link" target="_blank" rel="noopener noreferrer">Zalo: 84566468931</a>
+        ✈️ <a href="https://t.me/p3bet99" class="contact-link" target="_blank" rel="noopener noreferrer">Telegram: @p3bet99</a>
     </div>
+    <div class="copyright">
+        © 2024 P3BET. Tất cả các quyền được bảo lưu.<br>
+        Dành cho người từ 18 tuổi trở lên.
+    </div>
+</div>
+        
+    <script>
+        // ==================== 配置数据 ====================
+        
+        // 轮播图配置 - 可以随意增减
+        const banners = [
+            { image: 'assets/images/banners/banner1.png', alt: 'Banner 1' },
+            { image: 'assets/images/banners/banner2.png', alt: 'Banner 2' },
+            { image: 'assets/images/banners/banner3.png', alt: 'Banner 3' },
+            { image: 'assets/images/banners/banner4.png', alt: 'Banner 4' },
+            { image: 'assets/images/banners/banner5.png', alt: 'Banner 5' },
+            { image: 'assets/images/banners/banner6.png', alt: 'Banner 6' }
+        ];
+        
+        // 游戏配置 - 可以随意增减和分类
+        const gameCategories = [
+            {
+                name: 'Trò chơi phổ biến',
+                games: [
+                    { image: 'assets/images/games/04df68b4406e4b9796d72d0fe58681b2.png', name: 'NỔ HŨ', hot: true },
+                    { image: 'assets/images/games/70027a30179d45e2860db0e217c5d5db.webp', name: 'AE SEXY' },
+                    { image: 'assets/images/games/9f8d27ea232e44f58824c5defb782721.webp', name: 'DG' },
+                    { image: 'assets/images/games/8a4bd8dda5774e30b82a563508aa7c6e.webp', name: 'SABA' },
+                    { image: 'assets/images/games/6197acf62b98415e9373846127d29e65.webp', name: ' Sic Bo' },
+                    { image: 'assets/images/games/632e866e6fdd486582139834ddf241e3.webp', name: ' Đường Mạt Chược', hot: true },
+                 ]
+              },
+             {
+           name: 'Trò chơi nổi bật',
+                games: [
+                    { image: 'assets/images/games/7281b2a3055a4e7e8f03ba318e757b1e.webp', name: 'Bảo Thạch Kala' },
+                    { image: 'assets/images/games/d76c217a63da4fd1a31298c19ef4ae74.webp', name: 'Vua Đánh Cá' },
 
-    <script src="config.js"></script>
-    <script src="app.js"></script>
+                    { image: 'assets/images/games/83c4e840b31149a1b28aaa2b56073402.webp', name: 'Đế Quốc Hoàng Kim' },
+                   { image: 'assets/images/games/82d4f4a99de3447092c9acfa599c99a5.webp', name: 'Đường Mạt Chược ' },
+                     { image: 'assets/images/games/c7692e44bcda4257888fa461e8463f1c.png', name: 'Kho Báu Aztec' },
+                  
+                    
+                    { image: 'assets/images/games/ec4e3b8a851f4f41b0ea394a41a2d4a8.png', name: 'Quyết Chiến Tiền Thưởng' },
+                    { image: 'assets/images/games/f756d033199d4f1c8815c9c6d2d79389.webp', name: 'Bắn Cá Thần Tài' },
+                    { image: 'assets/images/games/240e1d086f17472583a3c821562a572b.webp', name: ' Tài Xỉu 30s' },
+                     { image: 'assets/images/games/83db75a47e8345279cb56da006c0f1f3.webp', name: 'Xóc Đĩa' },
+
+                ]
+            }
+
+        ];
+        
+        // 视频配置 - 可以随意增减
+        const videos = [
+            {
+                id: 'video1',
+                source: 'assets/videos/video1.mp4',
+                title: 'Trải nghiệm thực tế',
+                cover: 'assets/images/videos/cover-experience.jpg'
+            },
+            {
+                id: 'video2',
+                source: 'assets/videos/video2.mp4',
+                title: 'Hướng dẫn nạp tiền',
+                cover: 'assets/images/videos/cover-guide.jpg'
+            }
+        ];
+        
+        // ==================== 初始化页面 ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            initCarousel();
+            initGames();
+            initVideos();
+        });
+        
+        // ==================== 轮播图功能 ====================
+        function initCarousel() {
+            const track = document.getElementById('carouselTrack');
+            const navContainer = document.getElementById('carouselNav');
+            
+            // 生成轮播图
+            banners.forEach(banner => {
+                const slide = document.createElement('div');
+                slide.className = 'carousel-slide';
+                slide.innerHTML = `<img src="${banner.image}" alt="${banner.alt}">`;
+                track.appendChild(slide);
+            });
+            
+            // 生成导航点
+            banners.forEach((_, index) => {
+                const dot = document.createElement('div');
+                dot.className = 'nav-dot' + (index === 0 ? ' active' : '');
+                dot.dataset.index = index;
+                navContainer.appendChild(dot);
+            });
+            
+            let currentIndex = 0;
+            let autoPlayTimer = null;
+            
+            const slides = Array.from(track.children);
+            const dots = Array.from(navContainer.children);
+            
+            function getSlideWidth() {
+                return slides[0].getBoundingClientRect().width;
+            }
+            
+            function updateSlide() {
+                const slideWidth = getSlideWidth();
+                track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
+                
+                dots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === currentIndex);
+                });
+            }
+            
+            function nextSlide() {
+                currentIndex = (currentIndex + 1) % slides.length;
+                updateSlide();
+            }
+            
+            function startAutoPlay() {
+                stopAutoPlay();
+                autoPlayTimer = setInterval(nextSlide, 3000);
+            }
+            
+            function stopAutoPlay() {
+                if (autoPlayTimer) {
+                    clearInterval(autoPlayTimer);
+                    autoPlayTimer = null;
+                }
+            }
+            
+            // 导航点点击
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    currentIndex = index;
+                    updateSlide();
+                    stopAutoPlay();
+                    setTimeout(startAutoPlay, 5000);
+                });
+            });
+            
+            // 鼠标悬停控制
+            const container = document.querySelector('.carousel-container');
+            container.addEventListener('mouseenter', stopAutoPlay);
+            container.addEventListener('mouseleave', startAutoPlay);
+            
+            // 触摸滑动支持
+            let touchStartX = 0;
+            let touchEndX = 0;
+            
+            container.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+            });
+            
+            container.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            });
+            
+            function handleSwipe() {
+                if (touchEndX < touchStartX - 50) {
+                    // 向左滑
+                    currentIndex = (currentIndex + 1) % slides.length;
+                    updateSlide();
+                    stopAutoPlay();
+                    setTimeout(startAutoPlay, 5000);
+                }
+                if (touchEndX > touchStartX + 50) {
+                    // 向右滑
+                    currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+                    updateSlide();
+                    stopAutoPlay();
+                    setTimeout(startAutoPlay, 5000);
+                }
+            }
+            
+            // 窗口大小改变时重新计算
+            window.addEventListener('resize', updateSlide);
+            
+            // 开始自动播放
+            startAutoPlay();
+        }
+        
+        // ==================== 游戏区域功能 ====================
+        function initGames() {
+            const gamesSection = document.getElementById('gamesSection');
+            
+            gameCategories.forEach(category => {
+                const categoryDiv = document.createElement('div');
+                categoryDiv.className = 'game-category';
+                
+                const categoryTitle = document.createElement('div');
+                categoryTitle.className = 'category-title';
+                categoryTitle.textContent = category.name;
+                categoryDiv.appendChild(categoryTitle);
+                
+                const gameGrid = document.createElement('div');
+                gameGrid.className = 'game-grid';
+                
+                category.games.forEach(game => {
+                    const gameCard = document.createElement('div');
+                    gameCard.className = 'game-card';
+                    gameCard.innerHTML = `
+                        <img src="${game.image}" alt="${game.name}" class="game-image">
+                        <div class="game-name">${game.name}</div>
+                        ${game.hot ? '<div class="hot-badge">HOT</div>' : ''}
+                    `;
+                    
+                    gameCard.addEventListener('click', () => {
+                        // 这里可以添加游戏点击事件
+                        console.log('点击了游戏:', game.name);
+                    });
+                    
+                    gameGrid.appendChild(gameCard);
+                });
+                
+                categoryDiv.appendChild(gameGrid);
+                gamesSection.appendChild(categoryDiv);
+            });
+        }
+        
+        // ==================== 视频功能 ====================
+        function initVideos() {
+            const videosContainer = document.getElementById('videosContainer');
+            const fullscreenPlayer = document.getElementById('fullscreen-player');
+            const fullscreenVideo = document.getElementById('fullscreen-video');
+            const videoSource = document.getElementById('video-source');
+            const fullscreenTitle = document.getElementById('fullscreen-title');
+            const closeButton = document.getElementById('close-player');
+            
+            // 生成视频缩略图
+            videos.forEach(video => {
+                const thumbnail = document.createElement('div');
+                thumbnail.className = 'video-thumbnail';
+                thumbnail.innerHTML = `
+                    <img src="${video.cover}" alt="${video.title}" class="thumbnail-cover">
+                    <div class="play-button" data-video-id="${video.id}"></div>
+                    <div class="thumbnail-title">${video.title}</div>
+                `;
+                
+                thumbnail.addEventListener('click', () => {
+                    playVideo(video);
+                });
+                
+                videosContainer.appendChild(thumbnail);
+            });
+            
+            // 播放视频
+            function playVideo(video) {
+                videoSource.src = video.source;
+                fullscreenTitle.textContent = video.title;
+                fullscreenVideo.load();
+                
+                fullscreenPlayer.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+                
+                setTimeout(() => {
+                    fullscreenVideo.play().catch(e => {
+                        console.log('自动播放被阻止:', e);
+                    });
+                }, 300);
+            }
+            
+            // 关闭播放器
+            function closePlayer() {
+                fullscreenVideo.pause();
+                fullscreenPlayer.style.display = 'none';
+                document.body.style.overflow = 'auto';
+                fullscreenVideo.currentTime = 0;
+            }
+            
+            // 关闭按钮
+            closeButton.addEventListener('click', closePlayer);
+            
+            // 点击背景关闭
+            fullscreenPlayer.addEventListener('click', (e) => {
+                if (e.target === fullscreenPlayer) {
+                    closePlayer();
+                }
+            });
+            
+            // ESC键关闭
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && fullscreenPlayer.style.display === 'flex') {
+                    closePlayer();
+                }
+            });
+            
+            // 视频播放结束自动关闭
+            fullscreenVideo.addEventListener('ended', () => {
+                setTimeout(closePlayer, 1000);
+            });
+        }
+    </script>
 </body>
 </html>
